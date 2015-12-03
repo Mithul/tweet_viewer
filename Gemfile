@@ -15,6 +15,10 @@ gem 'figaro', '>= 1.0.0.rc1'
 gem 'simple_form'
 gem 'therubyracer', :platform=>:ruby
 gem 'thin'
+gem 'twitter'
+gem 'actionpack-action_caching'
+gem 'actionpack-page_caching'
+
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_21]
