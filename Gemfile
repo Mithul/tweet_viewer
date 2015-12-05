@@ -1,5 +1,4 @@
 source 'https://rubygems.org'
-ruby '2.1.2'
 gem 'rails', '4.1.0'
 gem 'sqlite3'
 gem 'sass-rails', '~> 4.0.3'
@@ -18,7 +17,7 @@ gem 'thin'
 gem 'twitter'
 gem 'actionpack-action_caching'
 gem 'actionpack-page_caching'
-
+gem 'paperclip'
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_21]

@@ -20,6 +20,8 @@ db/*.sqlite3
 /db/*.sqlite3-journal
 /log/*
 /tmp/*
+public/*
+/public/*
 
 # add /config/database.yml if it contains passwords
 # /config/database.yml
@@ -42,6 +44,7 @@ db/*.sqlite3
 /public/cache
 /public/stylesheets/compiled
 /public/system/*
+/public/assets/*
 /spec/tmp/*
 /cache
 /capybara*

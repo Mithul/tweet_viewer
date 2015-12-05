@@ -1,8 +1,15 @@
+<h1>Chennai Flood Tweets</h1>
 <div class="row" id="container" style="position:relative; max-height:800px">
-<% @tweets.each do |tweet| %>
+<% @tweets.each do |tweet1| %>
+	<% tweet= tweet1[:tweet] %>
 	<div class="well">
-		<%= raw(tweet.text.gsub /((#|@)([a-zA-Z0-9_]*))/, '<a href="https://twitter.com/hashtag/\3">\1</a>') %><br>Vadapalani
-		<div class="pull-right user">- <a href="<%= @client.user(tweet.user.id).url.to_s%>"><%= tweet.user.name %></a></div>
+		<%= raw(tweet.text.gsub(/(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})/,'<a target="_blank" href="\1">\1</a>').gsub(/((#|@)([a-zA-Z0-9_]*))/, '<a target="_blank" href="https://twitter.com/hashtag/\3">\1</a>')) %>
+<% if !tweet.media.empty? %>
+	<%= image_tag tweet1[:media].media_file.url(:medium) if tweet1[:media]%>
+<% end %>
+<br>
+	<div class="pull-left time"><%=  (@now - tweet.created_at).to_i %> seconds back</div>	
+	<div class="pull-right user">- <a target="_blank" href="https://twitter.com/<%= tweet.user.screen_name %>"><%= tweet.user.name %></a></div>
 		<br>
 	</div>
 <% end %>
@@ -13,5 +20,36 @@
  //    duration: 200,
  //    queue: true,
  //  }});
-	$('#container').wookmark({autoResize: true,align: 'left',resizeDelay: 200, container: $('#container'), flexibleWidth: true, itemWidth: '33%'});
+var opt={autoResize: true,align: 'left',resizeDelay: 200, container: $('#container'), flexibleWidth: true, itemWidth: '30%'};
+if($(window).width()<720)
+	opt['itemWidth']='49%';
+else
+	opt['itemWidth']='33%';
+
+//#$("img").lazyload({effect: 'fadeIn'});
+var w=new Wookmark('#container',opt);
+// init
+$(window).bind('load page:load appear',function(){
+	w.updateOptions();
+	console.log('Updated');
+});
+var up = setInterval(function(){
+	w.updateOptions();
+},10000);
+var ref = setInterval(function(){
+		$('.time').each(function(t){
+			var rx = /[0-9]*/;
+			text= $(this).html();
+			var arr = rx.exec(text);
+			var sec=parseInt(arr[0]);
+			$(this).html((sec+1)+" seconds back");
+			})
+		},1000);
+
+var refr=setInterval(function(){
+clearInterval(up);
+clearInterval(ref);
+clearInterval(refr);
+Turbolinks.visit('/',{cacheRequest: false})
+},60000);
 </script>
